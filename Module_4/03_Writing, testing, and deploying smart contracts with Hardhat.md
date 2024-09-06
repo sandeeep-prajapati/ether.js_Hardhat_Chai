@@ -1,11 +1,13 @@
-La escritura, prueba y despliegue de contratos inteligentes con Hardhat se puede realizar de la siguiente manera:
+### Escribir, Probar y Desplegar Contratos Inteligentes con Hardhat
 
-Escribir un contrato inteligente
+Aquí tienes un resumen detallado de cómo escribir, probar y desplegar contratos inteligentes utilizando **Hardhat**:
 
-Crear un archivo contracts/MyContract.sol con el siguiente código Solidity:
+#### 1. Escribir un Contrato Inteligente
 
+Crea un archivo llamado `contracts/MyContract.sol` con el siguiente código Solidity:
 
-solidity
+```solidity
+// contracts/MyContract.sol
 pragma solidity ^0.8.0;
 
 contract MyContract {
@@ -13,13 +15,16 @@ contract MyContract {
     return "Hello, Hardhat!";
   }
 }
+```
 
+Este contrato contiene una función `greet()` que simplemente devuelve el mensaje "Hello, Hardhat!".
 
-Probar el contrato inteligente
+#### 2. Probar el Contrato Inteligente
 
-Crear un archivo test/MyContract.test.js con el siguiente código JavaScript:
+Crea un archivo de prueba en el directorio `test/` llamado `MyContract.test.js` con el siguiente código JavaScript:
 
-
+```javascript
+// test/MyContract.test.js
 const { expect } = require("chai");
 const { ethers } = require("hardhat");
 
@@ -28,16 +33,22 @@ describe("MyContract", function () {
     const MyContract = await ethers.getContractFactory("MyContract");
     const myContract = await MyContract.deploy();
     await myContract.deployed();
+    
     expect(await myContract.greet()).to.equal("Hello, Hardhat!");
   });
 });
+```
 
+En esta prueba:
+- Se utiliza **Ethers.js** para desplegar el contrato.
+- Se verifica que la función `greet()` devuelve el mensaje esperado.
 
-Desplegar el contrato inteligente
+#### 3. Desplegar el Contrato Inteligente
 
-Crear un archivo deploy.js con el siguiente código JavaScript:
+Crea un archivo de despliegue en el directorio `scripts/` llamado `deploy.js` con el siguiente código JavaScript:
 
-
+```javascript
+// scripts/deploy.js
 const { ethers } = require("hardhat");
 
 async function main() {
@@ -48,15 +59,38 @@ async function main() {
 }
 
 main();
+```
 
+Este script:
+- Obtiene la fábrica del contrato (`getContractFactory`).
+- Despliega el contrato y espera a que esté desplegado (`deploy` y `deployed`).
+- Imprime la dirección del contrato desplegado en la consola.
 
-Ejecutar la prueba y desplegar el contrato
+#### 4. Ejecutar la Prueba y Desplegar el Contrato
 
-Ejecutar los siguientes comandos:
+Para ejecutar las pruebas y desplegar el contrato, utiliza los siguientes comandos:
 
+1. **Ejecutar la prueba**:
 
-npx hardhat test
-npx hardhat run deploy.js
+    ```bash
+    npx hardhat test
+    ```
 
+    Este comando ejecutará las pruebas definidas en el archivo `MyContract.test.js` y mostrará si las pruebas pasaron o fallaron.
 
-Esto escribirá, probará y desplegará el contrato inteligente en la red de prueba de Hardhat. Puedes personalizar la configuración y agregar más características según sea necesario.
+2. **Desplegar el contrato**:
+
+    ```bash
+    npx hardhat run scripts/deploy.js
+    ```
+
+    Este comando ejecutará el script `deploy.js` y desplegará el contrato en la red local de Hardhat.
+
+### Resumen de los Pasos:
+
+1. **Escribir el Contrato**: Crea el archivo Solidity con el código del contrato.
+2. **Probar el Contrato**: Define pruebas utilizando **Chai** y **Ethers.js** para verificar la funcionalidad del contrato.
+3. **Desplegar el Contrato**: Crea un script de despliegue para implementar el contrato en la red.
+4. **Ejecutar la Prueba y Desplegar**: Utiliza los comandos de Hardhat para probar y desplegar el contrato.
+
+Puedes ajustar la configuración y agregar características adicionales según sea necesario para tu proyecto. Si necesitas más detalles o tienes preguntas adicionales, ¡no dudes en preguntar!
